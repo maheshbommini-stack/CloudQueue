@@ -1,0 +1,52 @@
+rules_version = '2';
+
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+
+    // USERS
+    match /users/{userId} {
+
+      allow read:
+        if request.auth != null;
+
+      allow create:
+        if request.auth != null
+        && request.auth.uid == userId;
+
+      allow update:
+        if request.auth != null
+        && request.auth.uid == userId;
+
+      allow delete: if false;
+    }
+
+
+    // QUEUES
+    match /queues/{queueId} {
+
+      allow read:
+        if request.auth != null;
+
+      // Queue modifications are handled
+      // by trusted backend/admin operations.
+      allow write: if false;
+    }
+
+
+    // TOKENS
+    match /tokens/{tokenId} {
+
+      allow read:
+        if request.auth != null;
+
+      // Creation is handled by Cloud Function.
+      allow create: if false;
+
+      // Users cannot directly manipulate tokens.
+      allow update: if false;
+
+      allow delete: if false;
+    }
+  }
+}
