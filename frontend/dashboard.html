@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>CloudQueue Dashboard</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+  <h2>🎫 CloudQueue</h2>
+
+  <button id="logoutBtn">
+    Logout
+  </button>
+
+</header>
+
+
+<main class="dashboard">
+
+  <div class="card">
+
+    <h2>Get Your Token</h2>
+
+    <select id="queueSelect">
+
+      <option value="library">
+        Library
+      </option>
+
+      <option value="office">
+        College Office
+      </option>
+
+      <option value="lab">
+        Laboratory
+      </option>
+
+    </select>
+
+    <button id="getTokenBtn">
+      Get Token
+    </button>
+
+    <div
+      id="tokenResult"
+      class="token-box">
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>My Token</h2>
+
+    <p>
+      Token:
+      <strong id="myToken">-</strong>
+    </p>
+
+    <p>
+      Status:
+      <strong id="myStatus">-</strong>
+    </p>
+
+    <button
+      id="cancelBtn"
+      class="danger">
+      Cancel Token
+    </button>
+
+  </div>
+
+</main>
+
+
+<script
+  type="module"
+  src="app.js">
+</script>
+
+</body>
+</html>
