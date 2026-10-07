@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>CloudQueue Admin</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+  <h2>🎫 CloudQueue Admin</h2>
+
+  <button id="logoutBtn">
+    Logout
+  </button>
+
+</header>
+
+
+<main class="dashboard">
+
+  <div class="card">
+
+    <h2>Queue Management</h2>
+
+    <select id="queueSelect">
+
+      <option value="library">
+        Library
+      </option>
+
+      <option value="office">
+        College Office
+      </option>
+
+      <option value="lab">
+        Laboratory
+      </option>
+
+    </select>
+
+    <button id="nextBtn">
+      Call Next
+    </button>
+
+    <div id="currentToken"></div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>Complete Token</h2>
+
+    <input
+      id="tokenId"
+      placeholder="Token ID">
+
+    <button id="completeBtn">
+      Complete
+    </button>
+
+  </div>
+
+</main>
+
+<script type="module">
+
+import {
+  auth,
+  functions
+} from "./firebase-config.js";
+
+import {
+  httpsCallable
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
+
+import {
+  signOut
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+document
+  .getElementById("nextBtn")
+  .addEventListener("click", async () => {
+
+    try {
+
+      const queueId =
+        document.getElementById(
+          "queueSelect"
+        ).value;
+
+      const callNext =
+        httpsCallable(
+          functions,
+          "callNextToken"
+        );
+
+      const result =
+        await callNext({
+          queueId
+        });
+
+      document.getElementById(
+        "currentToken"
+      ).innerHTML =
+        `<h1>Now Serving: ${result.data.tokenNumber}</h1>`;
+
+    } catch (error) {
+
+      alert(error.message);
+    }
+  });
+
+
+document
+  .getElementById("completeBtn")
+  .addEventListener("click", async () => {
+
+    try {
+
+      const tokenId =
+        document.getElementById(
+          "tokenId"
+        ).value;
+
+      const complete =
+        httpsCallable(
+          functions,
+          "completeToken"
+        );
+
+      await complete({
+        tokenId
+      });
+
+      alert(
+        "Token completed."
+      );
+
+    } catch (error) {
+
+      alert(error.message);
+    }
+  });
+
+
+document
+  .getElementById("logoutBtn")
+  .addEventListener("click", async () => {
+
+    await signOut(auth);
+
+    location.href =
+      "index.html";
+  });
+
+</script>
+
+</body>
+</html>
